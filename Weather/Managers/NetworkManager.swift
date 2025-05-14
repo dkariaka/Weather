@@ -7,12 +7,13 @@
 
 import Foundation
 
-class NetworkManager {
-    static let shared = NetworkManager()
+class NetworkManager: NetworkManagerProtocol {
+   
+    private let keychainManager: KeychainManagerProtocol
     
-    private let apiKey = "YOUR API KEY"
-    
-    private init() {}
+    init(keychainManager: KeychainManagerProtocol) {
+        self.keychainManager = keychainManager
+    }
     
     func fetchWeatherData(for city: String, completed: @escaping(Result<City, Errors>) -> Void) {
         let dispatchGroup = DispatchGroup()
@@ -46,7 +47,12 @@ class NetworkManager {
     }
     
     func fetchCurrentWeatherData(for city: String, completed: @escaping(Result<CurrentWeatherResponse, Errors>) -> Void) {
+        guard let apiKey = keychainManager.loadString(key: "weatherAPIKey") else {
+            completed(.failure(.noAPIKey))
+            return
+        }
         let link = "https://api.openweathermap.org/data/2.5/weather?q=\(city)&units=metric&appid=\(apiKey)"
+
         guard let url = URL(string: link) else {
             completed(.failure(.invalidURL))
             return
@@ -93,7 +99,13 @@ class NetworkManager {
     
     
     func fetchForecastWeatherData(for city: String, completed: @escaping(Result<ForecastWeatherResponse, Errors>) -> Void) {
+        
+        guard let apiKey = keychainManager.loadString(key: "weatherAPIKey") else {
+            completed(.failure(.noAPIKey))
+            return
+        }
         let link = "https://api.openweathermap.org/data/2.5/forecast?q=\(city)&units=metric&appid=\(apiKey)"
+        
         guard let url = URL(string: link) else {
             completed(.failure(.invalidURL))
             return
@@ -128,6 +140,12 @@ class NetworkManager {
         task.resume()
     }
     
+}
+
+protocol NetworkManagerProtocol {
+    func fetchWeatherData(for city: String, completed: @escaping(Result<City, Errors>) -> Void)
+    func fetchCurrentWeatherData(for city: String, completed: @escaping(Result<CurrentWeatherResponse, Errors>) -> Void)
+    func fetchForecastWeatherData(for city: String, completed: @escaping(Result<ForecastWeatherResponse, Errors>) -> Void)
 }
 
 

@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func createSearchNavigationController() -> UINavigationController {
-        let searchVC = SearchVC()
+        let searchVC = SearchVC(persistenceManager: DIContainer.shared.persistenceManager)
         searchVC.title = "Weather"
         
         return UINavigationController(rootViewController: searchVC)

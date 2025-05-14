@@ -11,14 +11,19 @@ enum PersistanceActionType {
     case add, remove
 }
 
-enum PersistenceManager {
-    static private let defaults = UserDefaults.standard
+final class PersistenceManager: PersistenceManaging {
+    
+    private let defaults: UserDefaults
+    
+    init(defaults: UserDefaults) {
+        self.defaults = defaults
+    }
     
     enum Keys {
         static let cities = "savedCities"
     }
     
-    static func updateWith(city: SavedCity, actionType: PersistanceActionType, completed: @escaping(Errors?) -> Void) {
+    func updateWith(city: SavedCity, actionType: PersistanceActionType, completed: @escaping(Errors?) -> Void) {
         retrieveCities { result in
             switch result {
             case .success(var cities):
@@ -33,7 +38,7 @@ enum PersistenceManager {
                     cities.removeAll { $0.name == city.name }
                 }
                 
-                completed(save(cities: cities))
+                completed(self.save(cities: cities))
                 
             case .failure(let error):
                 completed(error)
@@ -43,7 +48,7 @@ enum PersistenceManager {
     }
     
     
-    static func retrieveCities(completed: @escaping(Result<[SavedCity], Errors>) -> Void) {
+    func retrieveCities(completed: @escaping(Result<[SavedCity], Errors>) -> Void) {
         guard let citiesData = defaults.object(forKey: Keys.cities) as? Data else {
             completed(.success([]))
             return
@@ -59,7 +64,7 @@ enum PersistenceManager {
     }
     
     
-    static func save(cities:[SavedCity]) -> Errors? {
+    func save(cities:[SavedCity]) -> Errors? {
         do {
             let encoder = JSONEncoder()
             let encodedCities = try encoder.encode(cities)
@@ -70,3 +75,10 @@ enum PersistenceManager {
         }
     }
 }
+
+
+protocol PersistenceManaging {
+    func retrieveCities(completed: @escaping (Result<[SavedCity], Errors>) -> Void)
+    func updateWith(city: SavedCity, actionType: PersistanceActionType, completed: @escaping (Errors?) -> Void)
+}
+

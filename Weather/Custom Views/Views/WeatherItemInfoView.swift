@@ -54,4 +54,18 @@ class WeatherItemInfoView: UIView {
             self.widthAnchor.constraint(equalToConstant: 50)
         ])
     }
+    
+    func populateUI(with item: ForecastWeatherResponse.ForecastItem, timezoneOffset: Int) {
+        let hourDate = Date(timeIntervalSince1970: item.dt)
+        timeLabel.text = hourDate.formattedHour(timezoneOffset: timezoneOffset)
+
+        let description = item.weather.first?.description ?? ""
+        let iconCode = item.weather.first?.icon ?? ""
+        let iconName = WeatherIcons(description: description, icon: iconCode).systemImageName
+
+        weatherIcon.image = UIImage(systemName: iconName)
+        weatherIcon.tintColor = .white
+        temperatureLabel.text = "\(Int(round(item.main.temp)))°C"
+    }
+
 }

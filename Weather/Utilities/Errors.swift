@@ -16,4 +16,5 @@ enum Errors: String, Error {
     case errorDecodingForecastWeather = "there was a problem decoding forecast weather"
     case invalidURL = "Invalid URL"
     case invalidData = "There is something wrong with data from the server"
+    case noAPIKey = "❌ API key not found in Keychain"
 }

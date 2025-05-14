@@ -9,49 +9,62 @@ import UIKit
 
 class SearchVC: UIViewController {
     
+    private let persistenceManager: PersistenceManaging
+
+    init(persistenceManager: PersistenceManaging) {
+        self.persistenceManager = persistenceManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     let searchController = UISearchController()
     var isCityNameEntered: Bool { return !searchController.searchBar.text!.isEmpty }
     
-    let tableView = UITableView()
+    let tableView = SavedCitiesTableView(frame: .zero, style: .plain)
     var savedCities: [SavedCity] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureSearchController()
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
+        tableView.register(SavedCityCell.self, forCellReuseIdentifier: SavedCityCell.reuseID)
+        configureSearchController()
         configureTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getCavedCities()
+        getSavedCities()
     }
     
     
-    func getCavedCities() {
-        PersistenceManager.retrieveCities { [weak self] result in
+    func getSavedCities() {
+        persistenceManager.retrieveCities { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case .success(let savedCities):
-                self.savedCities = savedCities
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+                updateUI(savedCities: savedCities)
             case .failure:
                 break
             }
         }
     }
     
+    func updateUI(savedCities: [SavedCity]) {
+        self.savedCities = savedCities
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
     func configureTableView() {
         view.addSubview(tableView)
         tableView.frame = view.bounds
-        tableView.rowHeight = 80
-        tableView.register(SavedCityCell.self, forCellReuseIdentifier: SavedCityCell.reuseID)
-        tableView.backgroundColor = .systemBackground
-        
+
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -67,21 +80,15 @@ class SearchVC: UIViewController {
 
 
 extension SearchVC: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        
-    }
+    func updateSearchResults(for searchController: UISearchController) {}
 }
 
 
 extension SearchVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard isCityNameEntered else {
-            print("No city entered")
-            return
-        }
+        guard isCityNameEntered else { return }
         
-        let cityWeatherInfoVC = CityWeatherInfoVC()
-        cityWeatherInfoVC.cityName = searchController.searchBar.text
+        let cityWeatherInfoVC = CityWeatherInfoVC(cityName: searchController.searchBar.text ?? "",persistenceManager: persistenceManager, networkManager: DIContainer.shared.networkManager)
         navigationController?.pushViewController(cityWeatherInfoVC, animated: true)
     }
 }
@@ -100,8 +107,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let savedCity = savedCities[indexPath.row]
-        let destVC = CityWeatherInfoVC()
-        destVC.cityName = savedCity.name
+        let destVC = CityWeatherInfoVC(cityName: savedCity.name,persistenceManager: persistenceManager, networkManager: DIContainer.shared.networkManager)
         navigationController?.pushViewController(destVC, animated: true)
     }
     
@@ -111,7 +117,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         savedCities.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .left)
         
-        PersistenceManager.updateWith(city: savedCity, actionType: .remove) { [weak self] error in
+        persistenceManager.updateWith(city: savedCity, actionType: .remove) { [weak self] error in
             guard let self = self else { return }
             
             guard let error = error else { return }
