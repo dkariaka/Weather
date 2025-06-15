@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		68CA3DEF2DFED48C00EE8B6B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 68CA3DEE2DFED48C00EE8B6B /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		684A70782DD3970D00DD37FE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -19,6 +23,19 @@
 /* Begin PBXFileReference section */
 		684A70742DD3970D00DD37FE /* WeatherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		686E55162D881F6B000CDB67 /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		68CA3DEE2DFED48C00EE8B6B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		68CA3DF12DFED85F00EE8B6B /* Main (dark theme).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Main (dark theme).png"; sourceTree = "<group>"; };
+		68CA3DF22DFED87C00EE8B6B /* Main (light theme).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Main (light theme).png"; sourceTree = "<group>"; };
+		68CA3DF32DFED88E00EE8B6B /* List of favorites (dark theme).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "List of favorites (dark theme).png"; sourceTree = "<group>"; };
+		68CA3DF42DFED89800EE8B6B /* List of favorites (light theme).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "List of favorites (light theme).png"; sourceTree = "<group>"; };
+		68CA3DF52DFED8A700EE8B6B /* City (rainy day backround).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "City (rainy day backround).png"; sourceTree = "<group>"; };
+		68CA3DF62DFED8B000EE8B6B /* City (clear day background).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "City (clear day background).png"; sourceTree = "<group>"; };
+		68CA3DF72DFED8BC00EE8B6B /* City (rainy night background).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "City (rainy night background).png"; sourceTree = "<group>"; };
+		68CA3DF82DFED8C900EE8B6B /* City (clear night background).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "City (clear night background).png"; sourceTree = "<group>"; };
+		68CA3DF92DFED8D800EE8B6B /* City name is not correct case.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "City name is not correct case.png"; sourceTree = "<group>"; };
+		68CA3DFA2DFED8E300EE8B6B /* Internet connection issue case.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Internet connection issue case.png"; sourceTree = "<group>"; };
+		68CA3DFB2DFED8F600EE8B6B /* Deleting the city from the list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Deleting the city from the list.png"; sourceTree = "<group>"; };
+		68CA3DFC2DFED8FF00EE8B6B /* Already in favorites notification.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Already in favorites notification.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -68,6 +85,8 @@
 		686E550D2D881F6B000CDB67 = {
 			isa = PBXGroup;
 			children = (
+				68CA3DF02DFED83300EE8B6B /* Screenshots */,
+				68CA3DEE2DFED48C00EE8B6B /* README.md */,
 				686E55182D881F6B000CDB67 /* Weather */,
 				684A70752DD3970D00DD37FE /* WeatherTests */,
 				686E55172D881F6B000CDB67 /* Products */,
@@ -81,6 +100,25 @@
 				684A70742DD3970D00DD37FE /* WeatherTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		68CA3DF02DFED83300EE8B6B /* Screenshots */ = {
+			isa = PBXGroup;
+			children = (
+				68CA3DF12DFED85F00EE8B6B /* Main (dark theme).png */,
+				68CA3DF22DFED87C00EE8B6B /* Main (light theme).png */,
+				68CA3DF32DFED88E00EE8B6B /* List of favorites (dark theme).png */,
+				68CA3DF42DFED89800EE8B6B /* List of favorites (light theme).png */,
+				68CA3DF52DFED8A700EE8B6B /* City (rainy day backround).png */,
+				68CA3DF62DFED8B000EE8B6B /* City (clear day background).png */,
+				68CA3DF72DFED8BC00EE8B6B /* City (rainy night background).png */,
+				68CA3DF82DFED8C900EE8B6B /* City (clear night background).png */,
+				68CA3DF92DFED8D800EE8B6B /* City name is not correct case.png */,
+				68CA3DFA2DFED8E300EE8B6B /* Internet connection issue case.png */,
+				68CA3DFB2DFED8F600EE8B6B /* Deleting the city from the list.png */,
+				68CA3DFC2DFED8FF00EE8B6B /* Already in favorites notification.png */,
+			);
+			path = Screenshots;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,6 +220,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68CA3DEF2DFED48C00EE8B6B /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
