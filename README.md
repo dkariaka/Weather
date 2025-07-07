@@ -25,8 +25,8 @@ A simple iOS weather application built with Swift and UIKit. It displays current
 
 ### Main Screen
 Adaptive, support light and dark modes.
-[Main Dark Screen](Screenshots/Main (dark theme).png)
-[Main Light Screen](Screenshots/Main (light theme).png)
+![Main Dark Screen](Screenshots/Main%20(dark%20theme).png)
+![Main Light Screen](Screenshots/Main%20(light%20theme).png)
 
 ###List of favorite cities
 List appears on the main screens at once after you added a city to favorites, adaptive.
